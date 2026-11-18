@@ -1,0 +1,51 @@
+{
+  "entry_path": "/bucket?list-type=2",
+  "media": "application/json",
+  "routes": [
+    {
+      "path": "/bucket?list-type=2",
+      "method": "GET",
+      "status": 200,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": "{\"IsTruncated\": true, \"Contents\": [{\"Key\": \"east/2026-11-20/seal.json\", \"ETag\": \"multipart-2\"}], \"NextContinuationToken\": \"page-2\"}"
+    },
+    {
+      "path": "/bucket?list-type=2&continuation-token=page-2",
+      "method": "GET",
+      "status": 200,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": "{\"IsTruncated\": false, \"Contents\": []}"
+    },
+    {
+      "path": "/objects/east/2026-11-20/seal.json",
+      "method": "GET",
+      "status": 200,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": "{\"batch\": \"east-day\", \"revision\": \"r1\", \"supersedes\": null, \"volumes\": [{\"key\": \"volume.json\", \"versionId\": \"v1\", \"sha256\": \"081f0f797e62942cae5dffe3013eca3517b41524905a0e83f9ddca3a7aafbd15\"}]}"
+    },
+    {
+      "path": "/objects/volume.json?versionId=v1",
+      "method": "GET",
+      "status": 200,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": "{\"objects\": [{\"key\": \"east/day.json\", \"versionId\": \"v1\", \"size\": 15, \"sha256\": \"278c3fdbfe98fead5758fd1a019e8ad2c73e931c790d135b7fafc49556ba1927\"}]}"
+    },
+    {
+      "path": "/objects/east/day.json?versionId=v1",
+      "method": "GET",
+      "status": 200,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": "{\"arrivals\":17}"
+    }
+  ]
+}
