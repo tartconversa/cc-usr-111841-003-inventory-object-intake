@@ -9,16 +9,16 @@
       "headers": {
         "Content-Type": "application/json"
       },
-      "body": "{\"IsTruncated\": true, \"Versions\": [{\"Key\": \"east/guide.json\", \"VersionId\": \"opaque-A\", \"IsLatest\": true, \"LastModified\": \"2026-11-20T01:00:00Z\"}], \"DeleteMarkers\": [], \"NextKeyMarker\": \"east/guide.json\", \"NextVersionIdMarker\": \"opaque-A\"}"
+      "body": "{\"IsTruncated\": true, \"Versions\": [{\"Key\": \"east/guide.json\", \"VersionId\": \"opaque-A\", \"IsLatest\": false, \"LastModified\": \"2026-11-20T01:00:00Z\"}, {\"Key\": \"east/guide.json\", \"VersionId\": \"opaque-B\", \"IsLatest\": false, \"LastModified\": \"2026-11-19T01:00:00Z\"}, {\"Key\": \"east/guide.json\", \"VersionId\": \"opaque-C\", \"IsLatest\": false, \"LastModified\": \"2026-11-17T01:00:00Z\"}], \"DeleteMarkers\": [], \"NextKeyMarker\": \"east/guide.json\", \"NextVersionIdMarker\": \"opaque-C\"}"
     },
     {
-      "path": "/bucket?versions&key-marker=east%2Fguide.json&version-id-marker=opaque-A",
+      "path": "/bucket?versions&key-marker=east%2Fguide.json&version-id-marker=opaque-C",
       "method": "GET",
       "status": 200,
       "headers": {
         "Content-Type": "application/json"
       },
-      "body": "{\"IsTruncated\": false, \"Versions\": [{\"Key\": \"east/guide.json\", \"VersionId\": \"opaque-B\", \"IsLatest\": false, \"LastModified\": \"2026-11-19T01:00:00Z\"}], \"DeleteMarkers\": []}"
+      "body": "{\"IsTruncated\": false, \"Versions\": [{\"Key\": \"west/form.pdf\", \"VersionId\": \"opaque-W1\", \"IsLatest\": true, \"LastModified\": \"2026-11-18T01:00:00Z\"}], \"DeleteMarkers\": [{\"Key\": \"east/guide.json\", \"VersionId\": \"marker-D\", \"IsLatest\": true, \"LastModified\": \"2026-11-21T01:00:00Z\"}]}"
     },
     {
       "path": "/objects/east/guide.json?versionId=opaque-A",
@@ -32,6 +32,15 @@
     {
       "path": "/objects/east/guide.json?versionId=opaque-B",
       "method": "GET",
+      "status": 200,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": "{\"service\": \"company-change\", \"hall\": \"east\"}"
+    },
+    {
+      "path": "/objects/east/guide.json?versionId=opaque-C",
+      "method": "GET",
       "status": 410,
       "headers": {
         "Content-Type": "application/json"
@@ -39,12 +48,40 @@
       "body": "version no longer retained"
     },
     {
+      "path": "/objects/west/form.pdf?versionId=opaque-W1",
+      "method": "GET",
+      "status": 200,
+      "headers": {
+        "Content-Type": "application/pdf"
+      },
+      "body": "PDF-BYTES"
+    },
+    {
       "path": "/objects/east/guide.json",
       "method": "HEAD",
       "status": 404,
       "headers": {
-        "x-amz-version-id": "D",
+        "x-amz-version-id": "marker-D",
         "x-amz-delete-marker": "true"
+      },
+      "body": ""
+    },
+    {
+      "path": "/objects/west/form.pdf",
+      "method": "HEAD",
+      "status": 200,
+      "headers": {
+        "x-amz-version-id": "opaque-W1",
+        "x-amz-delete-marker": "false"
+      },
+      "body": ""
+    },
+    {
+      "path": "/objects/ghost/notice.txt",
+      "method": "HEAD",
+      "status": 404,
+      "headers": {
+        "Content-Type": "application/json"
       },
       "body": ""
     },
@@ -55,7 +92,7 @@
       "headers": {
         "Content-Type": "application/json"
       },
-      "body": "{\"Records\": [{\"key\": \"east/guide.json\", \"versionId\": \"D\", \"eventName\": \"ObjectRemoved:DeleteMarkerCreated\", \"sequencer\": \"10\"}, {\"key\": \"east/guide.json\", \"versionId\": \"opaque-A\", \"eventName\": \"ObjectCreated:Put\", \"sequencer\": \"f\"}]}"
+      "body": "{\"Records\": [{\"key\": \"east/guide.json\", \"versionId\": \"marker-D\", \"eventName\": \"ObjectRemoved:DeleteMarkerCreated\", \"sequencer\": \"10\"}, {\"key\": \"east/guide.json\", \"versionId\": \"opaque-A\", \"eventName\": \"ObjectCreated:Put\", \"sequencer\": \"0f\"}, {\"key\": \"west/form.pdf\", \"versionId\": \"opaque-W1\", \"eventName\": \"ObjectCreated:Put\", \"sequencer\": \"03\"}, {\"key\": \"ghost/notice.txt\", \"versionId\": \"opaque-G1\", \"eventName\": \"ObjectCreated:Put\", \"sequencer\": \"07\"}]}"
     }
   ]
 }
