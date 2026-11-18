@@ -19,6 +19,8 @@ def make_server(scenario, log=None):
             self.respond()
         def do_POST(self):
             self.respond()
+        def do_HEAD(self):
+            self.respond()
         def respond(self):
             raw=self.rfile.read(int(self.headers.get('Content-Length','0')))
             entry=dict(method=self.command,path=self.path,headers=list(self.headers.items()),body_base64=base64.b64encode(raw).decode())
@@ -50,7 +52,8 @@ def make_server(scenario, log=None):
                 self.send_header(k,v)
             self.send_header('Content-Length',str(len(body)))
             self.end_headers()
-            self.wfile.write(body)
+            if self.command!='HEAD':
+                self.wfile.write(body)
     server=ThreadingHTTPServer(('127.0.0.1',0),Handler)
     server.events=events
     server.visits=visits

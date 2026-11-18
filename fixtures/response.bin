@@ -1,1 +1,1 @@
-{"IsTruncated": true, "Contents": [{"Key": "east/2026-11-20/seal.json", "ETag": "multipart-2"}], "NextContinuationToken": "page-2"}
+{"IsTruncated": true, "Versions": [{"Key": "east/guide.json", "VersionId": "opaque-A", "IsLatest": true, "LastModified": "2026-11-20T01:00:00Z"}], "DeleteMarkers": [], "NextKeyMarker": "east/guide.json", "NextVersionIdMarker": "opaque-A"}

@@ -1,8 +1,8 @@
 # 来源协议
 
-这是独立合成的大厅资料接入项目，不包含个人资料或真实政务凭据。来源入口样例为 `/bucket?list-type=2`，所有相对链接以响应 URL 为基准。来源账号、访问范围和允许访问的 origin 由调用配置提供；真实密钥不应保存在资料中。
+这是独立合成的大厅资料接入项目，不包含个人资料或真实政务凭据。来源入口样例为 `/bucket?versions`，所有相对链接以响应 URL 为基准。来源账号、访问范围和允许访问的 origin 由调用配置提供；真实密钥不应保存在资料中。
 
-演练网关以 JSON 表达 ListObjectsV2，保留 IsTruncated、Contents、NextContinuationToken 语义。GET /objects/{key}?versionId=... 返回指定原件。封板 JSON 含 batch,revision,supersedes,volumes:[{key,versionId,sha256}]；分卷含 objects:[{key,versionId,size,sha256}]。404 是暂不可领，410 是指定版本已过保留期，不证明其他版本等价。
+S3版本列表的JSON网关：GET /bucket?versions，以 key-marker 与 version-id-marker 共同续页。Versions 和 DeleteMarkers 中均有 Key,VersionId,IsLatest,LastModified；IsTruncated 和两种 Next 标记说明分页。GET /objects/{key}?versionId=... 返回指定版本，HEAD /objects/{key} 返回当前x-amz-version-id及x-amz-delete-marker；最新删除标记时404但仍返回上述头，指定历史版本410为原件已永久不可领。GET /notifications 返回 Records，每条含 key,versionId,eventName,sequencer；sequencer为十六进制，只在同key内按左补零后的数值比较；不同版本时间相同不构成相同身份。通知不提供全局连续性保证，HEAD只证明本次对象观察，不证明扫描快照。
 
 ## 已有接口
 
